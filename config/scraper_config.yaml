@@ -1,0 +1,142 @@
+# Donizo Material Scraper Configuration
+# Configure suppliers, categories, and scraping parameters
+
+suppliers:
+  leroymerlin:
+    base_url: "https://www.leroymerlin.fr"
+    enabled: true
+    categories:
+      carrelage: "/carrelage-parquet/carrelage-sol-mur"
+      lavabos: "/salle-de-bains/lavabo-vasque"  
+      wc: "/salle-de-bains/wc-toilettes"
+      peinture: "/peinture-droguerie/peinture-interieur"
+      meuble-vasque: "/salle-de-bains/meuble-de-salle-de-bains"
+      douche: "/salle-de-bains/douche"
+    selectors:
+      product_container: "div[data-product-id], .product-item, .product-card"
+      name: "h2, h3, .product-title, .product-name"
+      price: ".price, .prix, .product-price"
+      brand: ".brand, .marque, .product-brand"
+      image: "img"
+      stock: ".stock, .availability, .disponibilite"
+
+  castorama:
+    base_url: "https://www.castorama.fr"
+    enabled: false  # Set to true when implemented
+    categories:
+      carrelage: "/carrelage-sol-mur"
+      sanitaire: "/salle-de-bain/sanitaire"
+      peinture: "/peinture-outillage/peinture"
+    selectors:
+      product_container: ".product-item"
+      name: ".product-title"
+      price: ".price"
+      brand: ".brand"
+
+  manomano:
+    base_url: "https://www.manomano.fr"
+    enabled: false  # Set to true when implemented
+    categories:
+      carrelage: "/carrelage-c1465"
+      salle-de-bain: "/salle-de-bain-c283"
+      peinture: "/peinture-c1433"
+
+# Scraping behavior configuration
+scraping:
+  # Rate limiting
+  delay_min: 1.0        # Minimum delay between requests (seconds)
+  delay_max: 3.0        # Maximum delay between requests (seconds)
+  
+  # Concurrency
+  max_concurrent_requests: 3
+  max_concurrent_categories: 2
+  
+  # Limits
+  max_products_per_category: 50
+  max_pages_per_category: 10
+  
+  # Retry logic
+  max_retries: 3
+  retry_delay: 5
+  
+  # User agent rotation
+  rotate_user_agents: true
+  user_agents:
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    - "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+
+# Output configuration
+output:
+  format: "json"  # json, csv, both
+  filepath: "data/materials.json"
+  csv_filepath: "data/materials.csv"
+  
+  # Include/exclude fields
+  fields:
+    - name
+    - category
+    - price
+    - currency
+    - product_url
+    - brand
+    - unit
+    - pack_size
+    - image_url
+    - in_stock
+    - supplier
+    - scraped_at
+  
+  # Versioning
+  versioned: true
+  version_format: "data/materials_{timestamp}.json"
+  keep_versions: 30  # Keep last 30 versions
+
+# Data processing
+processing:
+  # Price normalization
+  normalize_prices: true
+  default_currency: "EUR"
+  
+  # Text cleaning
+  clean_product_names: true
+  remove_html_tags: true
+  normalize_whitespace: true
+  
+  # Validation
+  validate_data: true
+  required_fields: ["name", "price", "category"]
+  min_price: 0.01
+  max_price: 10000.0
+
+# API simulation (bonus feature)
+api:
+  enabled: false
+  host: "localhost"
+  port: 8000
+  endpoints:
+    materials: "/materials"
+    categories: "/categories"
+    suppliers: "/suppliers"
+
+# Vector DB preparation (bonus feature)
+vector_db:
+  enabled: false
+  embedding_fields: ["name", "brand", "category"]
+  chunk_size: 1000
+  overlap: 200
+
+# Auto-sync configuration (bonus feature)
+sync:
+  enabled: false
+  schedule: "0 2 * * 1"  # Weekly on Monday at 2 AM (cron format)
+  notification_email: "admin@donizo.com"
+  webhook_url: ""
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/scraper.log"
+  max_size: "10MB"
+  backup_count: 5
