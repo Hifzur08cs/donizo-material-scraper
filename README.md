@@ -2,12 +2,6 @@
 
 A comprehensive Python-based web scraper for renovation material pricing data from major French suppliers. Built for Donizo's pricing engine with production-ready features, API simulation, and vector database preparation.
 
-## 🎯 Overview
-
-This scraper extracts renovation material pricing data from French suppliers including:
-- **Leroy Merlin** - https://www.leroymerlin.fr ✅ Implemented
-- **Castorama** - https://www.castorama.fr 🚧 Ready for implementation
-- **ManoMano** - https://www.manomano.fr 🚧 Ready for implementation
 
 ### Product Categories Supported
 - 🔲 Tiles (Carrelage)
