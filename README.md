@@ -430,7 +430,7 @@ print(f"Found {materials['total']} tiles under €50")
 python scraper.py --debug --categories carrelage --limit 5
 
 # Verify site structure hasn't changed
-python scripts/check_selectors.py --url "https://www.leroymerlin.fr/carrelage"
+python scripts/check_selectors.py
 ```
 
 **2. Rate limiting errors**
@@ -483,16 +483,3 @@ pre-commit install
 # Run tests before committing
 python -m pytest tests/ --cov=scraper
 ```
-
-## 📞 Support & Contact
-
-- **Documentation**: [GitHub Wiki](https://github.com/your-org/donizo-material-scraper/wiki)
-- **Issues**: [GitHub Issues](https://github.com/your-org/donizo-material-scraper/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/donizo-material-scraper/discussions)
-- **Email**: scraper-support@donizo.com
-
----
-
-**Built with ❤️ for Donizo's renovation pricing engine**
-
-*Last updated: January 2024*
